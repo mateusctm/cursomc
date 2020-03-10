@@ -7,13 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 import com.example.cursomc.domain.Categoria;
 import com.example.cursomc.domain.Cidade;
+import com.example.cursomc.domain.Cliente;
+import com.example.cursomc.domain.Endereco;
 import com.example.cursomc.domain.Estado;
 import com.example.cursomc.domain.Produto;
+import com.example.cursomc.domain.enums.TipoCliente;
 import com.example.cursomc.repositores.CategoriaRepository;
-import com.example.cursomc.repositores.CidadeRepositiry;
+import com.example.cursomc.repositores.CidadeRepository;
+import com.example.cursomc.repositores.ClienteRepository;
+import com.example.cursomc.repositores.EnderecoRepository;
 import com.example.cursomc.repositores.EstadoRepository;
 import com.example.cursomc.repositores.ProdutoRepository;
 
@@ -28,8 +32,14 @@ public class CursomcApplication implements CommandLineRunner{
 	private EstadoRepository estadoRepository;
 	
 	@Autowired
-	private CidadeRepositiry cidadeRepoditiry;
-
+	private CidadeRepository cidadeRepoditory;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
@@ -60,9 +70,13 @@ public class CursomcApplication implements CommandLineRunner{
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 		
-		//c1.getEstado()
+		Cliente cli1 = new Cliente(null, "Maria Silva ", "Maris@gmail.com", "333333333333", TipoCliente.PESSOAFISOCA);
+		cli1.getTelefones().addAll(Arrays.asList("277777444332", "3555355355355"));
 		
-				
+		Endereco e1 = new Endereco(null, "Rua flores", "300", "apto 303", "Jardins", "389992929", cli1, c1);
+		Endereco e2 = new Endereco(null, "avenida matos", "105", "sala 800", "centro", "67676736767367", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 				
 				
 				
@@ -71,8 +85,9 @@ public class CursomcApplication implements CommandLineRunner{
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
-		cidadeRepoditiry.saveAll(Arrays.asList(c1, c2, c3));
-		
+		cidadeRepoditory.saveAll(Arrays.asList(c1, c2, c3));
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
 		
 		
